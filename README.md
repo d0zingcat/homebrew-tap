@@ -10,8 +10,14 @@ Or, in a `brew bundle` `Brewfile`:
 
 ```ruby
 tap "d0zingcat/tap"
-brew "<formula>"
+cask "loon4mac"
 ```
+
+## Available Casks
+
+| Cask | Description |
+|------|-------------|
+| loon4mac | Loon for macOS - Network debugging tool |
 
 ## Documentation
 
