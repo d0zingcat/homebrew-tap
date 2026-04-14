@@ -4,7 +4,7 @@ cask "loon4mac" do
 
   url "https://github.com/Loon0x00/Loon4Mac/releases/download/0.2.0%2857%29/Loon-#{version}.dmg"
   name "Loon"
-  desc "Loon for macOS - Network debugging tool"
+  desc "Network debugging tool"
   homepage "https://github.com/Loon0x00/Loon4Mac"
 
   depends_on macos: ">= :ventura"
