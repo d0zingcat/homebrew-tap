@@ -7,6 +7,15 @@ cask "loon4mac" do
   desc "Network debugging tool"
   homepage "https://github.com/Loon0x00/Loon4Mac"
 
+  livecheck do
+    url :homepage
+    strategy :github_latest do |json|
+      tag = json["tag_name"]
+      # tag format: "0.2.0(60)" → cask version: "0.2.0-beta-60"
+      tag.match(/^(\d+\.\d+\.\d+)\((\d+)\)$/) { |m| "#{m[1]}-beta-#{m[2]}" }
+    end
+  end
+
   depends_on macos: ">= :ventura"
 
   app "Loon.app"
