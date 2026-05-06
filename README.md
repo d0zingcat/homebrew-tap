@@ -10,16 +10,14 @@ Or, in a `brew bundle` `Brewfile`:
 
 ```ruby
 tap "d0zingcat/tap"
-cask "dbx"
 cask "loon4mac"
 ```
 
 ## Available Casks
 
-| Cask | Description |
-|------|-------------|
-| dbx | DBX - Lightweight cross-platform database management tool |
-| loon4mac | Loon for macOS - Network debugging tool |
+| Cask | Description | Project | Homepage |
+|------|-------------|---------|----------|
+| loon4mac | Loon for macOS - Network debugging tool | [Loon4Mac](https://github.com/Loon0x00/Loon4Mac) | [nsloon.com](https://nsloon.com) |
 
 ## Documentation
 
