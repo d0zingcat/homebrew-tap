@@ -16,7 +16,7 @@ cask "loon4mac" do
     end
   end
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Loon.app"
 
