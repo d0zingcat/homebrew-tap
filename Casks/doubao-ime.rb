@@ -21,6 +21,16 @@ cask "doubao-ime" do
 
   input_method "DoubaoIme.app", target: "/Library/Input Methods/DoubaoIme.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-d", "-r", "com.apple.quarantine", "/Library/Input Methods/DoubaoIme.app"],
+                   must_succeed: false,
+                   sudo:         true
+    system_command "/usr/bin/killall",
+                   args:         ["SystemUIServer"],
+                   must_succeed: false
+  end
+
   zap trash: [
     "~/Library/Application Support/DoubaoIme",
     "~/Library/Caches/com.bytedance.inputmethod.doubaoime",
