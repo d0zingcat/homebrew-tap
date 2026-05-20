@@ -31,15 +31,6 @@ cask "doubao-ime" do
                    must_succeed: false
   end
 
-  caveats do
-    <<~EOS
-      豆包输入法已安装到 /Library/Input Methods/DoubaoIme.app。
-
-      安装后若系统设置里还看不到，请先注销并重新登录一次，再打开
-      系统设置 → 键盘 → 编辑输入法，用「+」添加「豆包输入法」。
-    EOS
-  end
-
   zap trash: [
     "~/Library/Application Support/DoubaoIme",
     "~/Library/Caches/com.bytedance.inputmethod.doubaoime",
@@ -49,4 +40,13 @@ cask "doubao-ime" do
     "~/Library/Preferences/com.bytedance.inputmethod.doubaoime.plist",
     "~/Library/Preferences/com.bytedance.inputmethod.doubaoime.settings.plist",
   ]
+
+  caveats do
+    <<~EOS
+      豆包输入法已安装到 /Library/Input Methods/DoubaoIme.app。
+
+      安装后若系统设置里还看不到，请先注销并重新登录一次，再打开
+      系统设置 → 键盘 → 编辑输入法，用「+」添加「豆包输入法」。
+    EOS
+  end
 end
