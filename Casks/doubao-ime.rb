@@ -17,16 +17,32 @@ cask "doubao-ime" do
   end
 
   depends_on macos: :catalina
-  container nested: "DoubaoImeInstaller_v#{version}.app/Contents/Resources/DoubaoIme.zip"
 
-  input_method "DoubaoIme.app", target: "/Library/Input Methods/DoubaoIme.app"
+  installer_resources = "DoubaoImeInstaller_v#{version}.app/Contents/Resources"
+  install_script = "#{installer_resources}/install.sh"
 
   postflight do
     ime_path = "/Library/Input Methods/DoubaoIme.app"
+    settings_app = "#{ime_path}/Contents/DoubaoImeSettings.app"
     bundle_id = "com.bytedance.inputmethod.doubaoime"
     input_mode = "com.bytedance.inputmethod.doubaoime.pinyin"
     hitoolbox = Pathname(Dir.home)/"Library/Preferences/com.apple.HIToolbox.plist"
     plist_buddy = "/usr/libexec/PlistBuddy"
+    vendor_install = staged_path.join(install_script)
+
+    if vendor_install.exist?
+      system_command "/bin/sh",
+                     args:         [vendor_install.to_s],
+                     env:          { "APP_NAME" => "DoubaoIme" },
+                     must_succeed: false,
+                     sudo:         true
+    else
+      odebug "Doubao vendor install.sh not found at #{vendor_install}, skipping"
+    end
+
+    unless File.directory?(ime_path)
+      odie "Doubao IME was not installed to #{ime_path}"
+    end
 
     system_command "/usr/bin/xattr",
                    args:         ["-d", "-r", "com.apple.quarantine", ime_path],
@@ -134,15 +150,47 @@ cask "doubao-ime" do
                      must_succeed: false
     end
 
+    system_command "/usr/bin/defaults",
+                   args:         ["write", "com.apple.HIToolbox", "AppleInputSourceUpdateTime", "-date", Time.now.utc.strftime("%Y-%m-%d %H:%M:%S %z")],
+                   must_succeed: false
+
     system_command "/usr/bin/open",
                    args:         [ime_path],
                    must_succeed: false
 
-    %w[cfprefsd TextInputMenuAgent SystemUIServer].each do |daemon|
+    if File.directory?(settings_app)
+      system_command "/usr/bin/open",
+                     args:         [settings_app],
+                     must_succeed: false
+    end
+
+    system_command "/usr/bin/open",
+                   args:         ["x-apple.systempreferences:com.apple.Keyboard-Settings.extension"],
+                   must_succeed: false
+
+    %w[cfprefsd TextInputMenuAgent TextInputSwitcher SystemUIServer].each do |daemon|
       system_command "/usr/bin/killall",
                      args:         [daemon],
                      must_succeed: false
     end
+  end
+
+  uninstall delete: [
+    "/Library/Input Methods/DoubaoIme.app",
+    "/Library/Input Methods/OceanIme.app",
+  ]
+
+  caveats do
+    <<~EOS
+      If 豆包输入法 does not appear in System Settings immediately:
+
+      1. In the Keyboard settings pane that opens, click "Edit…" (编辑) next to Input Sources.
+      2. Click "+" and add "Doubao Input Method" / 豆包输入法.
+      3. Ensure "Show Input menu in menu bar" is enabled, then switch from the menu bar icon.
+
+      On some macOS versions the input method only becomes selectable after logging out
+      and back in once. This matches the official installer behavior.
+    EOS
   end
 
   zap trash: [
