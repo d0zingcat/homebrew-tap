@@ -17,179 +17,26 @@ cask "doubao-ime" do
   end
 
   depends_on macos: :catalina
+  container nested: "DoubaoImeInstaller_v#{version}.app/Contents/Resources/DoubaoIme.zip"
 
-  installer_resources = "DoubaoImeInstaller_v#{version}.app/Contents/Resources"
-  install_script = "#{installer_resources}/install.sh"
+  input_method "DoubaoIme.app", target: "/Library/Input Methods/DoubaoIme.app"
 
   postflight do
-    ime_path = "/Library/Input Methods/DoubaoIme.app"
-    settings_app = "#{ime_path}/Contents/DoubaoImeSettings.app"
-    bundle_id = "com.bytedance.inputmethod.doubaoime"
-    input_mode = "com.bytedance.inputmethod.doubaoime.pinyin"
-    hitoolbox = Pathname(Dir.home)/"Library/Preferences/com.apple.HIToolbox.plist"
-    plist_buddy = "/usr/libexec/PlistBuddy"
-    vendor_install = staged_path.join(install_script)
-
-    if vendor_install.exist?
-      system_command "/bin/sh",
-                     args:         [vendor_install.to_s],
-                     env:          { "APP_NAME" => "DoubaoIme" },
-                     must_succeed: false,
-                     sudo:         true
-    else
-      odebug "Doubao vendor install.sh not found at #{vendor_install}, skipping"
-    end
-
-    unless File.directory?(ime_path)
-      odie "Doubao IME was not installed to #{ime_path}"
-    end
-
     system_command "/usr/bin/xattr",
-                   args:         ["-d", "-r", "com.apple.quarantine", ime_path],
+                   args:         ["-d", "-r", "com.apple.quarantine", "/Library/Input Methods/DoubaoIme.app"],
                    must_succeed: false,
                    sudo:         true
-
-    register_script = <<~SWIFT
-      import Carbon
-
-      let path = "#{ime_path}" as CFString
-      guard let url = CFURLCreateWithFileSystemPath(nil, path, .cfurlposixPathStyle, true) else {
-        fputs("failed to create URL\\n", stderr)
-        exit(1)
-      }
-
-      let regStatus = TISRegisterInputSource(url)
-      if regStatus != noErr {
-        fputs("TISRegisterInputSource failed: \\(regStatus)\\n", stderr)
-        exit(regStatus)
-      }
-
-      let bundleId = "#{bundle_id}" as CFString
-      let props = [kTISPropertyBundleID: bundleId] as CFDictionary
-      guard let unmanaged = TISCreateInputSourceList(props, true) else {
-        fputs("TISCreateInputSourceList failed\\n", stderr)
-        exit(1)
-      }
-
-      let sources = unmanaged.takeRetainedValue() as! [TISInputSource]
-      for source in sources {
-        TISEnableInputSource(source)
-      }
-    SWIFT
-
-    script_path = "#{Dir.tmpdir}/doubao-ime-register-#{Process.pid}.swift"
-    File.write(script_path, register_script)
-    system_command "/usr/bin/swift",
-                   args:         [script_path],
+    system_command "/usr/bin/killall",
+                   args:         ["SystemUIServer"],
                    must_succeed: false
-    FileUtils.rm_f(script_path)
-
-    unless hitoolbox.exist? && File.read(hitoolbox).include?(bundle_id)
-      unless hitoolbox.exist?
-        hitoolbox.dirname.mkpath
-        FileUtils.touch(hitoolbox)
-        system_command plist_buddy,
-                       args:         ["-c", "Add :AppleEnabledInputSources array", hitoolbox.to_s],
-                       must_succeed: false
-        idx = 0
-      else
-        output = shell_output(plist_buddy, "-c", "Print :AppleEnabledInputSources", hitoolbox.to_s)
-        idx = output.lines.count { |line| line.strip.start_with?("Dict {") }
-      end
-
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx} dict",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx}:InputSourceKind string Keyboard Input Method",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx}:'Bundle ID' string #{bundle_id}",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-
-      idx += 1
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx} dict",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx}:InputSourceKind string Input Mode",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx}:'Bundle ID' string #{bundle_id}",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-      system_command plist_buddy,
-                     args:         [
-                       "-c",
-                       "Add :AppleEnabledInputSources:#{idx}:'Input Mode' string #{input_mode}",
-                       hitoolbox.to_s,
-                     ],
-                     must_succeed: false
-    end
-
-    system_command "/usr/bin/defaults",
-                   args:         ["write", "com.apple.HIToolbox", "AppleInputSourceUpdateTime", "-date", Time.now.utc.strftime("%Y-%m-%d %H:%M:%S %z")],
-                   must_succeed: false
-
-    system_command "/usr/bin/open",
-                   args:         [ime_path],
-                   must_succeed: false
-
-    if File.directory?(settings_app)
-      system_command "/usr/bin/open",
-                     args:         [settings_app],
-                     must_succeed: false
-    end
-
-    system_command "/usr/bin/open",
-                   args:         ["x-apple.systempreferences:com.apple.Keyboard-Settings.extension"],
-                   must_succeed: false
-
-    %w[cfprefsd TextInputMenuAgent TextInputSwitcher SystemUIServer].each do |daemon|
-      system_command "/usr/bin/killall",
-                     args:         [daemon],
-                     must_succeed: false
-    end
   end
-
-  uninstall delete: [
-    "/Library/Input Methods/DoubaoIme.app",
-    "/Library/Input Methods/OceanIme.app",
-  ]
 
   caveats do
     <<~EOS
-      If 豆包输入法 does not appear in System Settings immediately:
+      豆包输入法已安装到 /Library/Input Methods/DoubaoIme.app。
 
-      1. In the Keyboard settings pane that opens, click "Edit…" (编辑) next to Input Sources.
-      2. Click "+" and add "Doubao Input Method" / 豆包输入法.
-      3. Ensure "Show Input menu in menu bar" is enabled, then switch from the menu bar icon.
-
-      On some macOS versions the input method only becomes selectable after logging out
-      and back in once. This matches the official installer behavior.
+      安装后若系统设置里还看不到，请先注销并重新登录一次，再打开
+      系统设置 → 键盘 → 编辑输入法，用「+」添加「豆包输入法」。
     EOS
   end
 
