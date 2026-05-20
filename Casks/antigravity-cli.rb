@@ -20,14 +20,14 @@ cask "antigravity-cli" do
 
   depends_on macos: :big_sur
 
-  binary "antigravity", target: "agy"
+  binary "antigravity", target: "antigravity-cli"
 
   postflight do
-    system_command "#{HOMEBREW_PREFIX}/bin/agy",
+    system_command "#{HOMEBREW_PREFIX}/bin/antigravity-cli",
                    args:         ["install"],
                    must_succeed: false
     system_command "/usr/bin/xattr",
-                   args:         ["-d", "com.apple.quarantine", "#{HOMEBREW_PREFIX}/bin/agy"],
+                   args:         ["-d", "com.apple.quarantine", "#{HOMEBREW_PREFIX}/bin/antigravity-cli"],
                    must_succeed: false
   end
 
