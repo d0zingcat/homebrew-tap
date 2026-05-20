@@ -18,6 +18,8 @@ cask "antigravity-cli" do
     end
   end
 
+  depends_on macos: :big_sur
+
   binary "antigravity", target: "agy"
 
   postflight do
@@ -29,7 +31,5 @@ cask "antigravity-cli" do
                    must_succeed: false
   end
 
-  zap trash: [
-    "~/.cache/antigravity",
-  ]
+  zap trash: "~/.cache/antigravity"
 end
