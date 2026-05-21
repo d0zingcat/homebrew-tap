@@ -19,7 +19,6 @@ cask "loon4mac"
 |------|-------------|---------|----------|
 | antigravity-cli | Google Antigravity CLI (`antigravity-cli`) | [Antigravity CLI](https://antigravity.google/cli) | [antigravity.google/cli](https://antigravity.google/cli) |
 | doubao-ime | Doubao Input Method - AI input method | [Doubao Input Method](https://shurufa.doubao.com/pc) | [shurufa.doubao.com](https://shurufa.doubao.com/pc) |
-| google-gemini | Google Gemini - AI assistant | [Gemini](https://gemini.google/mac/) | [gemini.google/mac](https://gemini.google/mac/) |
 | loon4mac | Loon for macOS - Network debugging tool | [Loon4Mac](https://github.com/Loon0x00/Loon4Mac) | [nsloon.com](https://nsloon.com) |
 | typeswitch | TypeSwitch - Input method switcher | [TypeSwitch](https://github.com/ygsgdbd/TypeSwitch) | [github.com/ygsgdbd/TypeSwitch](https://github.com/ygsgdbd/TypeSwitch) |
 
