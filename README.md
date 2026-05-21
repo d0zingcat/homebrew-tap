@@ -22,6 +22,7 @@ cask "loon4mac"
 | google-gemini | Google Gemini - AI assistant | [Gemini](https://gemini.google/mac/) | [gemini.google/mac](https://gemini.google/mac/) |
 | loon4mac | Loon for macOS - Network debugging tool | [Loon4Mac](https://github.com/Loon0x00/Loon4Mac) | [nsloon.com](https://nsloon.com) |
 | typeswitch | TypeSwitch - Input method switcher | [TypeSwitch](https://github.com/ygsgdbd/TypeSwitch) | [github.com/ygsgdbd/TypeSwitch](https://github.com/ygsgdbd/TypeSwitch) |
+| wakeup-macos | WakeupMenu - Remote wake utility | [wakeup-macos](https://github.com/d0zingcat/wakeup-macos) | [github.com/d0zingcat/wakeup-macos](https://github.com/d0zingcat/wakeup-macos) |
 
 ## Documentation
 
