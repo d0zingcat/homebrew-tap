@@ -4,7 +4,7 @@ cask "push-to-talk" do
 
   url "https://github.com/d0zingcat/push-to-talk/releases/download/v#{version}/PushToTalk.dmg"
   name "PushToTalk"
-  desc "Push-to-talk helper for Doubao IME"
+  desc "Voice input helper for Doubao IME"
   homepage "https://github.com/d0zingcat/push-to-talk"
 
   livecheck do
