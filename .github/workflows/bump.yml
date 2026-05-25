@@ -25,7 +25,11 @@ jobs:
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # brew update auto-taps homebrew/cask; bump-cask-pr retries tap without --force
+          brew tap homebrew/cask --force
+
           brew livecheck --tap "$GITHUB_REPOSITORY" --newer-only --quiet | while read -r cask version; do
+            echo "Bumping ${cask} to ${version}"
             brew bump-cask-pr \
               --no-browse \
               --no-audit \
