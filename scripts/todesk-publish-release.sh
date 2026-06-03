@@ -10,23 +10,26 @@ CASK_FILE="Casks/todesk.rb"
 
 PKG="${1:-${HOME}/Downloads/${FILENAME}}"
 
-if [[ ! -f "${PKG}" ]]; then
+if [[ ! -f "${PKG}" ]]
+then
   echo "error: pkg not found: ${PKG}" >&2
   exit 1
 fi
 
 ACTUAL_SHA256=$(shasum -a 256 "${PKG}" | awk '{print $1}')
-if [[ "${ACTUAL_SHA256}" != "${SHA256}" ]]; then
+if [[ "${ACTUAL_SHA256}" != "${SHA256}" ]]
+then
   echo "error: SHA-256 mismatch (expected ${SHA256}, got ${ACTUAL_SHA256})" >&2
   exit 1
 fi
 
-if ! command -v gh >/dev/null 2>&1; then
+if ! command -v gh >/dev/null 2>&1
+then
   echo "error: gh CLI is required" >&2
   exit 1
 fi
 
-gh release view "${TAG}" -R "${REPO}" >/dev/null 2>&1 && \
+gh release view "${TAG}" -R "${REPO}" >/dev/null 2>&1 &&
   gh release delete "${TAG}" -R "${REPO}" --yes --cleanup-tag
 
 gh release create "${TAG}" "${PKG}" \

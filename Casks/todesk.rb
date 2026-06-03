@@ -3,7 +3,8 @@ cask "todesk" do
   sha256 "0e04ad706ef3bae0ec1addb7f0b352cad875b5638504ba5183e6bdfb16959ff5"
 
   url "https://dl.todesk.com/macos/ToDesk_#{version}.pkg",
-      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " \
+                  "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
       referer:    "https://www.todesk.com/download.html",
       header:     "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8"
   name "ToDesk"
@@ -16,6 +17,7 @@ cask "todesk" do
   end
 
   auto_updates false
+  depends_on :macos
 
   pkg "ToDesk_#{version}.pkg"
 
