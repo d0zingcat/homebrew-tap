@@ -2,10 +2,12 @@
 set -euo pipefail
 
 VERSION="4.9.6.0"
-SHA256="25c8784ba5b6aa5dd13b837f354172e1751462de8988261ba04bbaa3d4c34538"
+SHA256="0e04ad706ef3bae0ec1addb7f0b352cad875b5638504ba5183e6bdfb16959ff5"
+URL="https://dl.todesk.com/macos/ToDesk_${VERSION}.pkg"
+URL_SHA256="ddbcbcd0a7499ac21a8a00c4dfc11751ec4c0c506dc1ad6e6455a5c8faed8e05"
 FILENAME="ToDesk_${VERSION}.pkg"
 CACHE_DIR="${HOME}/Library/Caches/Homebrew/downloads"
-CACHE_FILE="${CACHE_DIR}/${SHA256}--${FILENAME}"
+CACHE_FILE="${CACHE_DIR}/${URL_SHA256}--${FILENAME}"
 
 PKG="${1:-${HOME}/Downloads/${FILENAME}}"
 

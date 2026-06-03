@@ -50,7 +50,7 @@ rm -f ~/Library/Caches/Homebrew/downloads/*--ToDesk_4.9.6.0.pkg
 
 # 复制到 brew 缓存
 cp ~/Downloads/ToDesk_4.9.6.0.pkg \
-  ~/Library/Caches/Homebrew/downloads/25c8784ba5b6aa5dd13b837f354172e1751462de8988261ba04bbaa3d4c34538--ToDesk_4.9.6.0.pkg
+  ~/Library/Caches/Homebrew/downloads/ddbcbcd0a7499ac21a8a00c4dfc11751ec4c0c506dc1ad6e6455a5c8faed8e05--ToDesk_4.9.6.0.pkg
 
 brew install --cask d0zingcat/tap/todesk
 ```

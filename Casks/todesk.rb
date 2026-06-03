@@ -1,6 +1,6 @@
 cask "todesk" do
   version "4.9.6.0"
-  sha256 "25c8784ba5b6aa5dd13b837f354172e1751462de8988261ba04bbaa3d4c34538"
+  sha256 "0e04ad706ef3bae0ec1addb7f0b352cad875b5638504ba5183e6bdfb16959ff5"
 
   url "https://dl.todesk.com/macos/ToDesk_#{version}.pkg",
       user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
@@ -75,9 +75,9 @@ cask "todesk" do
              shasum -a 256 ~/Downloads/ToDesk_#{version}.pkg
         3. 删除可能存在的错误缓存（约 2KB 的 CAPTCHA 文件）：
              rm -f ~/Library/Caches/Homebrew/downloads/*--ToDesk_#{version}.pkg
-        4. 复制正确 pkg 到缓存：
+        4. 复制正确 pkg 到 Homebrew 下载缓存（键为下载 URL 的 SHA-256）：
              cp ~/Downloads/ToDesk_#{version}.pkg \\
-               ~/Library/Caches/Homebrew/downloads/25c8784ba5b6aa5dd13b837f354172e1751462de8988261ba04bbaa3d4c34538--ToDesk_#{version}.pkg
+               ~/Library/Caches/Homebrew/downloads/ddbcbcd0a7499ac21a8a00c4dfc11751ec4c0c506dc1ad6e6455a5c8faed8e05--ToDesk_#{version}.pkg
         5. 重新安装：
              brew install --cask #{token}
     EOS

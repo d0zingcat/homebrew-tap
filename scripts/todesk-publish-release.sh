@@ -4,7 +4,7 @@ set -euo pipefail
 REPO="${GITHUB_REPOSITORY:-d0zingcat/homebrew-tap}"
 VERSION="4.9.6.0"
 TAG="todesk-${VERSION}"
-SHA256="25c8784ba5b6aa5dd13b837f354172e1751462de8988261ba04bbaa3d4c34538"
+SHA256="0e04ad706ef3bae0ec1addb7f0b352cad875b5638504ba5183e6bdfb16959ff5"
 FILENAME="ToDesk_${VERSION}.pkg"
 CASK_FILE="Casks/todesk.rb"
 
