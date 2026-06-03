@@ -27,26 +27,47 @@ cask "loon4mac"
 
 ## ToDesk 安装说明
 
-ToDesk 官方下载链带有 CAPTCHA 验证，`brew install` 有时会因 checksum 校验失败而中断。可改用浏览器手动下载，再注入 Homebrew 缓存后安装：
+ToDesk 官方 CDN 带有 CAPTCHA，`brew install` 可能下载到约 2KB 的 HTML 页面并报 checksum 错误（例如 `87fa9661...`）。**不要**把 cask 里的 sha256 改成这个值。
+
+### 推荐：浏览器下载 + 安装脚本
 
 ```sh
-# 1. 从官网下载页获取 pkg（当前版本见 Casks/todesk.rb）
+# 1. 用浏览器从官网下载 pkg
 #    https://www.todesk.com/download.html
 
-# 2. 确认 SHA-256 与 cask 中 sha256 字段一致
+# 2. 运行 tap 安装脚本（会校验 SHA-256、清理错误缓存、注入 brew 缓存并安装）
+bash "$(brew --repo d0zingcat/tap)/scripts/todesk-install-from-download.sh" ~/Downloads/ToDesk_4.9.6.0.pkg
+```
+
+### 手动注入缓存
+
+```sh
+# 确认 pkg 大于 1MB 且 SHA-256 正确
 shasum -a 256 ~/Downloads/ToDesk_4.9.6.0.pkg
 
-# 3. 放入 Homebrew 下载缓存（格式：<sha256>--<原始文件名>）
+# 删除错误的 CAPTCHA 缓存（若存在）
+rm -f ~/Library/Caches/Homebrew/downloads/*--ToDesk_4.9.6.0.pkg
+
+# 复制到 brew 缓存
 cp ~/Downloads/ToDesk_4.9.6.0.pkg \
   ~/Library/Caches/Homebrew/downloads/25c8784ba5b6aa5dd13b837f354172e1751462de8988261ba04bbaa3d4c34538--ToDesk_4.9.6.0.pkg
 
-# 4. 重新安装（跳过下载，使用缓存）
 brew install --cask d0zingcat/tap/todesk
 ```
 
-版本号与 `sha256` 以 `Casks/todesk.rb` 为准；升级 cask 后请同步更新上述命令中的文件名与缓存路径。
+### 维护者：发布 GitHub Release 镜像（可选）
 
-卸载请使用 `brew uninstall --cask --zap todesk`，不要仅将 app 拖入废纸篓。安装完成后运行 `brew info --cask todesk` 也可查看完整说明。
+浏览器下载 pkg 后，可上传到 GitHub Release，供所有用户绕过 CAPTCHA：
+
+```sh
+bash "$(brew --repo d0zingcat/tap)/scripts/todesk-publish-release.sh" ~/Downloads/ToDesk_4.9.6.0.pkg
+```
+
+然后将 `Casks/todesk.rb` 的 `url` 改为脚本输出的 GitHub Release 地址。
+
+版本号与 `sha256` 以 `Casks/todesk.rb` 为准；升级 cask 后请同步更新脚本与 README。
+
+卸载请使用 `brew uninstall --cask --zap todesk`，不要仅将 app 拖入废纸篓。
 
 ## Documentation
 
