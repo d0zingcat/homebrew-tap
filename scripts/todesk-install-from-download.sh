@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="4.9.6.0"
-SHA256="0e04ad706ef3bae0ec1addb7f0b352cad875b5638504ba5183e6bdfb16959ff5"
-URL="https://dl.todesk.com/macos/ToDesk_${VERSION}.pkg"
-URL_SHA256="ddbcbcd0a7499ac21a8a00c4dfc11751ec4c0c506dc1ad6e6455a5c8faed8e05"
+VERSION="4.9.7.3"
+SHA256="2c4356dcbec5a79a847268a1e329010717047adcaeeba186385952a2c5e8b69c"
+URL="https://update.todesk.com/macos/ToDesk_${VERSION}.pkg"
+URL_SHA256="037da7e74b772688d994aca983affe2477f158b55635f9728478ee577c46361e"
 FILENAME="ToDesk_${VERSION}.pkg"
 CACHE_DIR="${HOME}/Library/Caches/Homebrew/downloads"
 CACHE_FILE="${CACHE_DIR}/${URL_SHA256}--${FILENAME}"

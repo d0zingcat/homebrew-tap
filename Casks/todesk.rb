@@ -1,12 +1,8 @@
 cask "todesk" do
-  version "4.9.6.0"
-  sha256 "0e04ad706ef3bae0ec1addb7f0b352cad875b5638504ba5183e6bdfb16959ff5"
+  version "4.9.7.3"
+  sha256 "2c4356dcbec5a79a847268a1e329010717047adcaeeba186385952a2c5e8b69c"
 
-  url "https://dl.todesk.com/macos/ToDesk_#{version}.pkg",
-      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " \
-                  "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-      referer:    "https://www.todesk.com/download.html",
-      header:     "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8"
+  url "https://update.todesk.com/macos/ToDesk_#{version}.pkg"
   name "ToDesk"
   desc "Remote control software"
   homepage "https://www.todesk.com/"
@@ -65,8 +61,7 @@ cask "todesk" do
 
       卸载后若音频相关进程仍残留，建议重启 Mac。
 
-      若 brew install 因下载校验失败（官方 CDN 可能返回约 2KB 的 CAPTCHA 页面），
-      请先用浏览器下载，再运行 tap 中的安装脚本：
+      若 brew install 因下载校验失败，请先用浏览器下载，再运行 tap 中的安装脚本：
 
         curl -fsSL https://raw.githubusercontent.com/d0zingcat/homebrew-tap/HEAD/scripts/todesk-install-from-download.sh | bash -s -- ~/Downloads/ToDesk_#{version}.pkg
 
@@ -75,11 +70,11 @@ cask "todesk" do
         1. 打开 https://www.todesk.com/download.html ，下载 ToDesk_#{version}.pkg
         2. 确认文件大于 1MB，且校验值正确：
              shasum -a 256 ~/Downloads/ToDesk_#{version}.pkg
-        3. 删除可能存在的错误缓存（约 2KB 的 CAPTCHA 文件）：
+        3. 删除可能存在的错误缓存：
              rm -f ~/Library/Caches/Homebrew/downloads/*--ToDesk_#{version}.pkg
         4. 复制正确 pkg 到 Homebrew 下载缓存（键为下载 URL 的 SHA-256）：
              cp ~/Downloads/ToDesk_#{version}.pkg \\
-               ~/Library/Caches/Homebrew/downloads/ddbcbcd0a7499ac21a8a00c4dfc11751ec4c0c506dc1ad6e6455a5c8faed8e05--ToDesk_#{version}.pkg
+               ~/Library/Caches/Homebrew/downloads/037da7e74b772688d994aca983affe2477f158b55635f9728478ee577c46361e--ToDesk_#{version}.pkg
         5. 重新安装：
              brew install --cask #{token}
     EOS
