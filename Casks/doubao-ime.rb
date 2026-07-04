@@ -1,6 +1,6 @@
 cask "doubao-ime" do
-  version "0.9.0"
-  sha256 "b3db587a25deca06964c2d88961ccbb7824f14e58b5347bad5893f7fd9b1a421"
+  version "0.9.2"
+  sha256 "c561241aaac39fd6036c6eda34ca433d95e75563220ca31017d5b54c295ef37e"
 
   url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/mac/DoubaoImeInstaller_v#{version}.zip",
       verified: "lf-wave.doubaocdn.com/obj/doubao-ime/"
