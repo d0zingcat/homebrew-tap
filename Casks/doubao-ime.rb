@@ -1,8 +1,8 @@
 cask "doubao-ime" do
-  version "0.9.2"
-  sha256 "c561241aaac39fd6036c6eda34ca433d95e75563220ca31017d5b54c295ef37e"
+  version "0.9.3,90302"
+  sha256 "ab9eee36f43f8cdc459d0971c0ea1ca7d220f24e839580990f0aade40b1bd771"
 
-  url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/mac/DoubaoImeInstaller_v#{version}.zip",
+  url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/macos/DoubaoImeInstaller_v#{version.csv.second}.zip",
       verified: "lf-wave.doubaocdn.com/obj/doubao-ime/"
   name "Doubao Input Method"
   name "豆包输入法"
@@ -12,12 +12,18 @@ cask "doubao-ime" do
   livecheck do
     url "https://shurufa.doubao.com/api/v1/app/download_url?platform=macos"
     strategy :json do |json|
-      json.dig("data", "version_name")&.delete_prefix("V")
+      version_name = json.dig("data", "version_name")&.delete_prefix("V")
+      download_url = json.dig("data", "url")
+      build_match = download_url&.match(/DoubaoImeInstaller_v(\d+)\.zip/i)
+      build = build_match&.captures&.first
+      next if version_name.blank? || build.blank?
+
+      "#{version_name},#{build}"
     end
   end
 
   depends_on macos: :catalina
-  container nested: "DoubaoImeInstaller_v#{version}.app/Contents/Resources/DoubaoIme.zip"
+  container nested: "DoubaoImeInstaller_v#{version.csv.second}.app/Contents/Resources/DoubaoIme.zip"
 
   input_method "DoubaoIme.app", target: "/Library/Input Methods/DoubaoIme.app"
 
