@@ -1,8 +1,8 @@
 cask "loon4mac" do
-  version "0.2.0-beta-60"
-  sha256 "5dbe407bf798caa5ca7975b3ee4e8c01122515ad03eda14664dc4ba11ca75444"
+  version "0.3.0-beta-63"
+  sha256 "03fde42fee7a29120c24a9e7a98606b06a066abfd92639c2e7889df536a518a9"
 
-  url "https://github.com/Loon0x00/Loon4Mac/releases/download/0.2.0%2860%29/Loon-#{version}.dmg"
+  url "https://github.com/Loon0x00/Loon4Mac/releases/download/0.3.0%2863%29/Loon-#{version}.dmg"
   name "Loon"
   desc "Network debugging tool"
   homepage "https://github.com/Loon0x00/Loon4Mac"
@@ -11,7 +11,7 @@ cask "loon4mac" do
     url :homepage
     strategy :github_latest do |json|
       tag = json["tag_name"]
-      # tag format: "0.2.0(60)" → cask version: "0.2.0-beta-60"
+      # tag format: "0.3.0(63)" → cask version: "0.3.0-beta-63"
       tag.match(/^(\d+\.\d+\.\d+)\((\d+)\)$/) { |m| "#{m[1]}-beta-#{m[2]}" }
     end
   end
