@@ -24,11 +24,31 @@ Use standard Homebrew Ruby cask style: two-space indentation, double-quoted stri
 
 ## Testing Guidelines
 
-There are no separate unit tests; validation is through Homebrew tooling. Every cask change should pass `brew audit --cask <token>` and `brew test-bot --only-tap-syntax`. For version updates, also run `brew livecheck --cask <token>` where applicable and confirm the downloaded artifact checksum matches the updated `sha256`.
+There are no separate unit tests; validation is through Homebrew tooling. Before committing or opening a PR, always run:
+
+```sh
+brew style d0zingcat/tap
+brew audit --cask <token>
+brew test-bot --only-tap-syntax
+```
+
+For version updates, also run `brew livecheck --cask <token>` where applicable and confirm the downloaded artifact checksum matches the updated `sha256`.
 
 ## Commit & Pull Request Guidelines
 
-Recent history uses concise conventional-style prefixes such as `feat:`, `fix:`, and `bump:`. Follow that pattern, for example `bump: dbx 0.3.0 -> 0.3.1`. Pull requests should describe the cask changed, list the validation commands run, and link the upstream release when bumping versions. For new casks, include install behavior, supported architectures, signing or quarantine caveats, and any required `zap` cleanup paths.
+Recent history uses concise conventional-style prefixes such as `feat:`, `fix:`, and `bump:`. Follow that pattern, for example `bump: dbx 0.3.0 -> 0.3.1`.
+
+### PR Merge & Guard Policy
+- **Never merge with failing CI**: The `main` branch is protected and requires all CI checks (`Tap Syntax Checks (All Matrix OS)`) to pass and branches to be up to date before merging.
+- **Merge procedure**: Once CI is green, merge pull requests using squash merge:
+  ```sh
+  gh pr merge <pr-number> --squash --delete-branch
+  ```
+  or enable auto-merge beforehand:
+  ```sh
+  gh pr merge <pr-number> --auto --squash --delete-branch
+  ```
+- **Cleanup**: Ensure feature and bump branches are deleted after merging to keep the repository clean. Pull requests should describe the cask changed, list the validation commands run, and link the upstream release when bumping versions. For new casks, include install behavior, supported architectures, signing or quarantine caveats, and any required `zap` cleanup paths.
 
 ## Security & Configuration Tips
 

@@ -45,3 +45,18 @@ jobs:
         with:
           name: bottles_${{ matrix.os }}
           path: '*.bottle.*'
+
+  test-bot-gate:
+    name: "Tap Syntax Checks (All Matrix OS)"
+    needs: test-bot
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Verify matrix status
+        run: |
+          if [ "${{ needs.test-bot.result }}" != "success" ]; then
+            echo "test-bot matrix job failed or was cancelled."
+            exit 1
+          fi
+          echo "All test-bot checks passed successfully."
+
