@@ -7,8 +7,7 @@ cask "antigravity-cli" do
   sha256 arm:   "70085c462422851ae18a23acfd9e6439c46b73dcc062ab67934f00d9c233ca0b",
          intel: "93e8612d19a24748b20ede2397defefaed8a38393abc64696eb4848970062af6"
 
-  url "https://storage.googleapis.com/antigravity-public/antigravity-cli/#{version.csv.first}-#{version.csv.second}/darwin-#{folder_arch}/cli_mac_#{file_arch}.tar.gz",
-      verified: "storage.googleapis.com/antigravity-public/antigravity-cli/"
+  url "https://storage.googleapis.com/antigravity-public/antigravity-cli/#{version.csv.first}-#{version.csv.second}/darwin-#{folder_arch}/cli_mac_#{file_arch}.tar.gz"
   name "Google Antigravity CLI"
   desc "Terminal interface for Antigravity agents"
   homepage "https://antigravity.google/product/antigravity-cli"

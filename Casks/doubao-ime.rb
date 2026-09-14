@@ -2,8 +2,7 @@ cask "doubao-ime" do
   version "0.9.3,90302"
   sha256 "ab9eee36f43f8cdc459d0971c0ea1ca7d220f24e839580990f0aade40b1bd771"
 
-  url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/macos/DoubaoImeInstaller_v#{version.csv.second}.zip",
-      verified: "lf-wave.doubaocdn.com/obj/doubao-ime/"
+  url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/macos/DoubaoImeInstaller_v#{version.csv.second}.zip"
   name "Doubao Input Method"
   name "豆包输入法"
   desc "AI input method"
@@ -22,19 +21,18 @@ cask "doubao-ime" do
     end
   end
 
-  depends_on macos: :catalina
   container nested: "DoubaoImeInstaller_v#{version.csv.second}.app/Contents/Resources/DoubaoIme.zip"
 
   input_method "DoubaoIme.app", target: "/Library/Input Methods/DoubaoIme.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args:         ["-d", "-r", "com.apple.quarantine", "/Library/Input Methods/DoubaoIme.app"],
-                   must_succeed: false,
-                   sudo:         true
-    system_command "/usr/bin/killall",
-                   args:         ["SystemUIServer"],
-                   must_succeed: false
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:         ["-d", "-r", "com.apple.quarantine", "/Library/Input Methods/DoubaoIme.app"],
+        must_succeed: false,
+        sudo:         true
+    run "/usr/bin/killall",
+        args:         ["SystemUIServer"],
+        must_succeed: false
   end
 
   zap trash: [
