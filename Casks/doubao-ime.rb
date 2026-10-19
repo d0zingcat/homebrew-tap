@@ -1,8 +1,8 @@
 cask "doubao-ime" do
-  version "0.9.3,90302"
-  sha256 "ab9eee36f43f8cdc459d0971c0ea1ca7d220f24e839580990f0aade40b1bd771"
+  version "1.0.2,1000207,release_20261010_175807_23027789"
+  sha256 "0cef9fa739d52b7603298e5d15024936e157371f156539333b2356681c1b07bc"
 
-  url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/macos/DoubaoImeInstaller_v#{version.csv.second}.zip"
+  url "https://lf-wave.doubaocdn.com/obj/doubao-ime/app/macos/DoubaoImeInstaller_v#{version.csv.second}_#{version.csv.third}.zip"
   name "Doubao Input Method"
   name "豆包输入法"
   desc "AI input method"
@@ -13,11 +13,13 @@ cask "doubao-ime" do
     strategy :json do |json|
       version_name = json.dig("data", "version_name")&.delete_prefix("V")
       download_url = json.dig("data", "url")
-      build_match = download_url&.match(/DoubaoImeInstaller_v(\d+)\.zip/i)
-      build = build_match&.captures&.first
-      next if version_name.blank? || build.blank?
+      # installer filename format: DoubaoImeInstaller_v<build>_<release-suffix>.zip
+      build_match = download_url&.match(%r{DoubaoImeInstaller_v(\d+)_([^/]+)\.zip}i)
+      build = build_match&.[](1)
+      release_suffix = build_match&.[](2)
+      next if version_name.blank? || build.blank? || release_suffix.blank?
 
-      "#{version_name},#{build}"
+      "#{version_name},#{build},#{release_suffix}"
     end
   end
 

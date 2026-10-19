@@ -1,8 +1,8 @@
 cask "loon4mac" do
-  version "0.3.0-beta-63"
-  sha256 "03fde42fee7a29120c24a9e7a98606b06a066abfd92639c2e7889df536a518a9"
+  version "0.4.0-beta-991"
+  sha256 "777c8499fe688dcaf917adc190509d4bd4a197be976ab6d6f9b5b9b2d12bd6ab"
 
-  url "https://github.com/Loon0x00/Loon4Mac/releases/download/0.3.0%2863%29/Loon-#{version}.dmg"
+  url "https://github.com/Loon0x00/Loon4Mac/releases/download/0.4.0%28991%29/Loon-#{version}.dmg"
   name "Loon"
   desc "Network debugging tool"
   homepage "https://github.com/Loon0x00/Loon4Mac"

@@ -1,8 +1,8 @@
 cask "typeswitch" do
-  version "0.5.2"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+  version "0.10.1"
+  sha256 "5137e3cdeff67a700a14a1f39eed2d5c0854e87f5677595b909d937f591ccc85"
 
-  url "https://github.com/ygsgdbd/TypeSwitch/releases/download/v#{version}/TypeSwitch.dmg"
+  url "https://github.com/ygsgdbd/TypeSwitch/releases/download/v#{version}/TypeSwitch-macOS-universal.zip"
   name "TypeSwitch"
   desc "Input method switcher"
   homepage "https://github.com/ygsgdbd/TypeSwitch"
@@ -12,7 +12,7 @@ cask "typeswitch" do
     strategy :github_latest
   end
 
-  depends_on macos: :ventura
+  depends_on macos: :sonoma
 
   app "TypeSwitch.app"
 

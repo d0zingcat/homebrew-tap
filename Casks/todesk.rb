@@ -1,6 +1,6 @@
 cask "todesk" do
-  version "4.9.7.3"
-  sha256 "2c4356dcbec5a79a847268a1e329010717047adcaeeba186385952a2c5e8b69c"
+  version "5.2.2.0"
+  sha256 "c3968dc8219391c1dee7bf16bef7abd421020a627df5f71bae6843a7a7c5a2ea"
 
   url "https://update.todesk.com/macos/ToDesk_#{version}.pkg"
   name "ToDesk"
@@ -74,7 +74,7 @@ cask "todesk" do
              rm -f ~/Library/Caches/Homebrew/downloads/*--ToDesk_#{version}.pkg
         4. 复制正确 pkg 到 Homebrew 下载缓存（键为下载 URL 的 SHA-256）：
              cp ~/Downloads/ToDesk_#{version}.pkg \\
-               ~/Library/Caches/Homebrew/downloads/037da7e74b772688d994aca983affe2477f158b55635f9728478ee577c46361e--ToDesk_#{version}.pkg
+               ~/Library/Caches/Homebrew/downloads/bc0fdf7b78d72b2c3733f8e951cbaaead20110af0a20026ff8bfba300a97ba0e--ToDesk_#{version}.pkg
         5. 重新安装：
              brew install --cask #{token}
     EOS
